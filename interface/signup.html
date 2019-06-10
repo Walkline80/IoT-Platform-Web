@@ -8,35 +8,37 @@
 		<link rel="stylesheet" href="./css/main.css">
 		<link rel="stylesheet" href="./vendor/Bootstrap/css/bootstrap.min.css" crossorigin="anonymous">
 
-		<title>走线物联</title>
+		<title>用户注册 - 走线物联</title>
 	</head>
 	<body>
 		<nav class="navbar navbar-dark bg-dark">
 			<span class="navbar-brand mb-0 h1">走线物联</span>
-
-			<span class="navbar-text">
-				还没注册？<a href="./signup.php">马上注册</a>
-			</span>
 		</nav>
 
 		<div class="container">
 			<div class="row">
-				<div class="col-md-8"></div>
+				<div class="col-md-4"></div>
 				<div class="col-md-4">
-					<div class="login_box">
-						<form>
-							<div class="form-group">
-								<label for="exampleInputEmail1">用户名</label>
-								<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="输入邮箱账号或者手机号">
-							</div>
-							<div class="form-group">
-								<label for="exampleInputPassword1">密码</label>
-								<input type="password" class="form-control" id="exampleInputPassword1" placeholder="输入密码">
-							</div>
-							<button type="submit" class="btn btn-primary btn-block">登录</button>
-						</form>
+					<div class="login_box sign_up">
+						<!-- <form> -->
+						<div class="form-group">
+							<label for="sign_up_username">用户名</label>
+							<input type="email" class="form-control" id="sign_up_username" placeholder="输入邮箱账号">
+						</div>
+						<div class="form-group">
+							<label for="sign_up_password">密码</label>
+							<input type="password" class="form-control" id="sign_up_password" placeholder="输入至少6位密码">
+						</div>
+						<div class="form-group">
+							<label for="sign_up_password_again">确认密码</label>
+							<input type="password" class="form-control" id="sign_up_password_again" placeholder="再次输入密码">
+						</div>
+
+						<button id="signup" class="btn btn-primary btn-block">注册</button>
+						<!-- </form> -->
 					</div>
 				</div>
+				<div class="col-md-4"></div>
 			</div>
 		</div>
 
@@ -46,5 +48,6 @@
 
 		<script src="./vendor/JQuery/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
 		<script src="./vendor/Bootstrap/js/bootstrap.min.js" crossorigin="anonymous"></script>
+		<script src="./js/signup.js"></script>
 	</body>
 </html>
