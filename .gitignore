@@ -1,0 +1,12 @@
+inc/connect2db.php
+phpinfo.php
+*.iml
+.idea/
+.gradle/
+build/
+venv/
+tmp/
+out/
+resource/
+export_*
+.vscode/
