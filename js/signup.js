@@ -23,7 +23,14 @@ var app = {
 		this.controls.button_sign_up.on('click', function () {
 			if (that._check_controls_is_empty_or_not_equals()) {
 				if (that._check_email_validation()) {
-					alert("check email success");
+					// alert("check email success");
+					$.post(Const.API_URI + Const.Commands.sign_up_user, {
+						username: this.controls.text_sign_up_username.val(),
+						password = this.controls.text_sign_up_password.val(),
+						password_again = this.controls.text_sign_up_password_again.val()
+					}, function (result) {
+						console.log(result);
+					});
 				}
 			}
 		});
