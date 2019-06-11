@@ -15,25 +15,38 @@ var app = {
 
 	init: function() {
 		this._bind_sign_up_click_event();
+		this._setup_toastr();
 	},
 
 	_bind_sign_up_click_event: function () {
 		var that = this;
 
-		this.controls.button_sign_up.on('click', function () {
+		that.controls.button_sign_up.on('click', function () {
 			if (that._check_controls_is_empty_or_not_equals()) {
 				if (that._check_email_validation()) {
 					// alert("check email success");
 					$.post(Const.API_URI + Const.Commands.sign_up_user, {
-						username: this.controls.text_sign_up_username.val(),
-						password = this.controls.text_sign_up_password.val(),
-						password_again = this.controls.text_sign_up_password_again.val()
+						username: that.controls.text_sign_up_username.val(),
+						password: that.controls.text_sign_up_password.val(),
+						password_again: that.controls.text_sign_up_password_again.val()
 					}, function (result) {
-						console.log(result);
+						if (!result.error_code) {
+							toastr.options.onHidden = function () {
+								location.href = "/";
+							}
+							toastr.success('恭喜，注册成功！');
+						} else {
+							toastr.warning("错误：" + result.error_msg);
+						}
 					});
 				}
 			}
 		});
+	},
+
+	_setup_toastr: function () {
+		toastr.options.positionClass = "toast-bottom-center";
+		toastr.options.timeOut = 3000;
 	},
 
 	_check_controls_is_empty_or_not_equals: function () {

@@ -4,9 +4,11 @@
 	include_once('../../connect2db.php');
 	include_once('../../functions.php');
 	include_once('exception.php');
+	include_once('query_list.php');
 
 	$returnObject = array();
 	$exception = new api_error();
+	$query_list = new query_list();
 
 	if ($_SERVER['REQUEST_METHOD'] === "POST") {
 		switch ($_REQUEST['v1']) {
@@ -56,7 +58,9 @@
 
 
 	function sign_up_user($username, $password, $password_again) {
-		global $exception;
+		global $exception, $query_list;
+
+		$username = strtolower($username);
 
 		if (!$username) {
 			return $exception->get_response_object(2000);
@@ -77,6 +81,27 @@
 		if (!check_email_validation($username)) {
 			return $exception->get_response_object(2004);
 		}
+
+		$query_result = mysql_query(sprintf(query_list::query_user_exists, $username));
+
+		if (mysql_num_rows($query_result) >= 1) {
+			return $exception->get_response_object(2005);
+		}
+
+		$nickname = ucfirst(explode("@", $username)[0]);
+		$password = md5($password);
+		$ip_address = get_user_ip_address();
+
+		mysql_query(sprintf(query_list::query_append_user, $username, $nickname, $password, $ip_address));
+
+		$returnObject = array(
+			"result" => "success"
+		);
+
+		mysql_free_result($query_result);
+		mysql_close();
+
+		return $returnObject;
 	}
 
 	

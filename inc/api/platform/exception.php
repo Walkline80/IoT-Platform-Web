@@ -21,6 +21,9 @@
 				case 2004:
 					$error_msg = "邮箱格式不正确！";
 					break;
+				case 2005:
+					$error_msg = "用户已存在！";
+					break;
 			}
 
 			$returnObject = array(
