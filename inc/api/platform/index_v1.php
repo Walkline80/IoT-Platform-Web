@@ -16,6 +16,10 @@
 				$returnObject = sign_up_user(@$_POST['username'], @$_POST['password'], @$_POST['password_again']);
 
 				break;
+			case 'sign_in_user':
+				$returnObject = sign_in_user(@$_POST['username'], @$_POST['password']);
+
+				break;
 			default:
 				$returnObject = (object) array(
 					"error_code" => 1001,
@@ -57,9 +61,25 @@
 	// }
 
 
-	function sign_up_user($username, $password, $password_again) {
+	function sign_in_user($username, $password) {
 		global $exception, $query_list;
 
+		$username = strtolower($username);
+
+		if (!$username) {
+			return $exception->get_response_object(2000);
+		}
+
+		if (!$password) {
+			return $exception->get_response_object(2001);
+		 }
+
+		 
+	}
+
+	function sign_up_user($username, $password, $password_again) {
+		global $exception, $query_list, $mysqli;
+		
 		$username = strtolower($username);
 
 		if (!$username) {
@@ -82,9 +102,16 @@
 			return $exception->get_response_object(2004);
 		}
 
-		$query_result = mysql_query(sprintf(query_list::query_user_exists, $username));
+		// $query_result = mysql_query(sprintf(query_list::query_user_exists, $username));
 
-		if (mysql_num_rows($query_result) >= 1) {
+
+		$stmt = $mysqli->prepare(query_list::query_user_exists);
+		$stmt->bind_param("s", $username);
+		$stmt->execute();
+		$stmt->store_result();
+		// $query_result = $stmt->fetch();
+
+		if ($stmt->num_rows() >= 1) {
 			return $exception->get_response_object(2005);
 		}
 
@@ -98,8 +125,10 @@
 			"result" => "success"
 		);
 
-		mysql_free_result($query_result);
-		mysql_close();
+		$stmt->close();
+		$mysqli->close();
+		// mysql_free_result($query_result);
+		// mysql_close();
 
 		return $returnObject;
 	}

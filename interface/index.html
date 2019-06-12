@@ -11,30 +11,24 @@
 		<title>走线物联</title>
 	</head>
 	<body>
-		<nav class="navbar navbar-dark bg-dark">
-			<span class="navbar-brand mb-0 h1">走线物联</span>
-
-			<span class="navbar-text">
-				还没注册？<a href="./signup.php">马上注册</a>
-			</span>
-		</nav>
-
+		###NAVBAR###
 		<div class="container">
-			<div class="row">
+			<div class="row" ###SHOWHIDE###>
 				<div class="col-md-8"></div>
 				<div class="col-md-4">
 					<div class="login_box">
-						<form>
-							<div class="form-group">
-								<label for="exampleInputEmail1">用户名</label>
-								<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="输入邮箱账号或者手机号">
-							</div>
-							<div class="form-group">
-								<label for="exampleInputPassword1">密码</label>
-								<input type="password" class="form-control" id="exampleInputPassword1" placeholder="输入密码">
-							</div>
-							<button type="submit" class="btn btn-primary btn-block">登录</button>
-						</form>
+						<!-- <form> -->
+						<div class="form-group">
+							<label for="sign_in_username">用户名</label>
+							<input type="email" class="form-control" id="sign_in_username" placeholder="输入邮箱账号或者手机号">
+						</div>
+						<div class="form-group">
+							<label for="sign_in_password">密码</label>
+							<input type="password" class="form-control" id="sign_in_password" placeholder="输入密码">
+						</div>
+
+						<button id="signin" class="btn btn-primary btn-block">登录</button>
+						<!-- </form> -->
 					</div>
 				</div>
 			</div>
@@ -46,5 +40,8 @@
 
 		<script src="./vendor/JQuery/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
 		<script src="./vendor/Bootstrap/js/bootstrap.min.js" crossorigin="anonymous"></script>
+		<script src="./vendor/Toastr/toastr.min.js"></script>
+		<script src="./js/functions.js"></script>
+		<script src="./js/index.js"></script>
 	</body>
 </html>

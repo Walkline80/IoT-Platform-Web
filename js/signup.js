@@ -10,7 +10,7 @@ var app = {
 		text_sign_up_password: $("#sign_up_password"),
 		text_sign_up_password_again: $("#sign_up_password_again"),
 	
-		button_sign_up: $("#signup"),
+		button_sign_up: $("#signup")
 	},
 
 	init: function() {
@@ -22,7 +22,7 @@ var app = {
 		var that = this;
 
 		that.controls.button_sign_up.on('click', function () {
-			if (that._check_controls_is_empty_or_not_equals()) {
+			if (that._check_controls_is_not_empty_or_not_equals()) {
 				if (that._check_email_validation()) {
 					// alert("check email success");
 					$.post(Const.API_URI + Const.Commands.sign_up_user, {
@@ -49,7 +49,7 @@ var app = {
 		toastr.options.timeOut = 3000;
 	},
 
-	_check_controls_is_empty_or_not_equals: function () {
+	_check_controls_is_not_empty_or_not_equals: function () {
 		var result = true;
 		var username = this.controls.text_sign_up_username.val(),
 			password = this.controls.text_sign_up_password.val(),

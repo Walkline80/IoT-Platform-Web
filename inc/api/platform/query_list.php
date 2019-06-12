@@ -7,7 +7,7 @@
 			FROM
 				iot_users
 			WHERE
-				email = '%s'
+				email = ?
 			LIMIT 1";
 		
 		const query_append_user =

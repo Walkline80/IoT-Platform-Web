@@ -2,29 +2,31 @@
 	$is_local = $_SERVER['SERVER_NAME'] === "localhost";
 
 	if ($is_local) {
-		$host = "localhost";
-		$user = "root";
-		$pass = "123456";
-		$db_name = "iot_platform";
+		$mysql_config = array (
+			'host' => 'localhost',
+			'db_user' => 'root',
+			'db_pwd'  => '123456',
+			'db'   => 'iot_platform'
+		);
 	} else {
-		$host = "";
-		$user = "";
-		$pass = "";
-		$db_name = "";
+		$mysql_config = array (
+			'host' => '',
+			'db_user' => '',
+			'db_pwd'  => '',
+			'db'   => ''
+		);
 	}
 
-	$connection = @mysql_connect($host, $user, $pass);
+	$mysqli = @new mysqli($mysql_config['host'], $mysql_config['db_user'], $mysql_config['db_pwd']);
 
-	if (!$connection) {die("连接数据库失败：" . mysql_error());}
+	if ($mysqli->connect_errno) {
+		die("连接数据库失败：" . $mysqli->connect_error);
+	}
 
-	mysql_select_db($db_name, $connection);
+	$mysqli->query("set names utf8");
+	$mysqli->query("set character set utf8");
+	$mysqli->select_db($mysql_config['db']);
 
 	// 设置默认时区
 	date_default_timezone_set("Asia/Shanghai");
-
-	// 字符转换，读库
-	mysql_query("set character set utf8");
-
-	// 写库
-	mysql_query("set names utf8");
 ?>
