@@ -1,6 +1,15 @@
 <?php
-	class api_error
-	{
+	/**
+	 * Restful API 相关错误信息提示类
+	 * 
+	 * 在这里定义了全部的错误代码和错误信息
+	 * 
+	 * @author	Walkline Wang
+	 * @license	MIT
+	 * @version	0.0.1
+	 */
+	
+	class api_error	{
 		public function get_response_object($error_code) {
 			$error_msg = "";
 			$returnObject = array();

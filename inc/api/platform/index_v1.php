@@ -1,4 +1,14 @@
 <?php
+	/**
+	 * Restful API 提供程序
+	 * 
+	 * 提供全部的和网站、硬件设备交互的 API 接口程序
+	 * 
+	 * @author	Walkline Wang
+	 * @license	MIT
+	 * @version	0.0.1
+	 */
+	
 	header('Content-Type: application/json');
 
 	include_once('../../connect2db.php');
