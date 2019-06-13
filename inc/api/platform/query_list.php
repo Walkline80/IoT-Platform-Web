@@ -21,12 +21,23 @@
 			)
 			VALUES
 				(
-					'%s',
-					'%s',
-					'%s',
-					'%s',
+					?,
+					?,
+					?,
+					?,
 					UUID(),
 					NOW()
 				)";
+		const query_sign_in_user =
+			"SELECT
+				email,
+				nickname,
+				uuid
+			FROM
+				iot_users
+			WHERE
+				email = ?
+			AND passwd = ?
+			LIMIT 1";
 	}
 ?>

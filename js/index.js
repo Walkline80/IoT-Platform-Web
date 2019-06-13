@@ -9,12 +9,24 @@ var app = {
 		text_sign_in_username: $("#sign_in_username"),
 		text_sign_in_password: $("#sign_in_password"),
 
-		button_sign_in: $("#signin")
+		button_sign_in: $("#signin"),
+		button_log_out: $("#logout")
 	},
 
 	init: function () {
 		this._bind_sign_in_click_event();
+		this._bind_log_out_click_event();
 		this._setup_toastr();
+	},
+
+	_bind_log_out_click_event: function () {
+		this.controls.button_log_out.on('click', function () {
+			$.post(Const.API_URI + Const.Commands.log_out_user, {}, function (result) {
+				if (!result.error_code) {
+					location.href = "/";
+				}
+			});
+		});
 	},
 
 	_bind_sign_in_click_event: function () {
@@ -24,13 +36,10 @@ var app = {
 			if (that._check_controls_is_not_empty()) {
 				$.post(Const.API_URI + Const.Commands.sign_in_user, {
 					username: that.controls.text_sign_in_username.val(),
-					password: that.controls.text_sign_in_password.val()
+					password: $.md5(that.controls.text_sign_in_password.val())
 				}, function (result) {
 					if (!result.error_code) {
-						toastr.options.onHidden = function () {
-							location.href = "/";
-						}
-						toastr.success('恭喜，注册成功！');
+						location.href = "/";
 					} else {
 						toastr.warning("错误：" + result.error_msg);
 					}

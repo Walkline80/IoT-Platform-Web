@@ -35,7 +35,7 @@
 	function load_pages($page) {
 		$output = file_get_contents("interface/{$page}.html");
 
-		if (!isset($_SESSION['userinfo']) || !isset($_SESSION['userinfo']['uid'])) {
+		if (!isset($_SESSION['userinfo']) || !isset($_SESSION['userinfo']['uuid'])) {
 			$output = str_replace("###NAVBAR###", sign_up_code, $output);
 			$output = str_replace("###SHOWHIDE###", "", $output);
 		} else {

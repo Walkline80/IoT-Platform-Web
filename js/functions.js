@@ -3,6 +3,7 @@ var Const = {
 
 	Commands: {
 		sign_up_user: "sign_up_user",
-		sign_in_user: "sign_in_user"
+		sign_in_user: "sign_in_user",
+		log_out_user: "log_out_user"
 	}
 };

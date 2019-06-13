@@ -6,6 +6,9 @@
 	include_once('exception.php');
 	include_once('query_list.php');
 
+	session_set_cookie_params(24 * 3600 * 365, "/");
+	session_start();
+
 	$returnObject = array();
 	$exception = new api_error();
 	$query_list = new query_list();
@@ -18,6 +21,10 @@
 				break;
 			case 'sign_in_user':
 				$returnObject = sign_in_user(@$_POST['username'], @$_POST['password']);
+
+				break;
+			case 'log_out_user':
+				$returnObject = log_out_user();
 
 				break;
 			default:
@@ -61,8 +68,18 @@
 	// }
 
 
+	function log_out_user() {
+		unset($_SESSION['userinfo']);
+
+		$returnObject = array(
+			"result" => "success"
+		);
+
+		return $returnObject;
+	}
+
 	function sign_in_user($username, $password) {
-		global $exception, $query_list;
+		global $exception, $query_list, $mysqli;
 
 		$username = strtolower($username);
 
@@ -72,9 +89,34 @@
 
 		if (!$password) {
 			return $exception->get_response_object(2001);
-		 }
+		}
 
-		 
+		$stmt = $mysqli->prepare(query_list::query_sign_in_user);
+		$stmt->bind_param("ss", $username, $password);
+		$stmt->execute();
+		$stmt->store_result();
+
+		if ($stmt->num_rows() == 0) {
+			return $exception->get_response_object(2006);
+		}
+
+		$stmt->bind_result($username, $nickname, $uuid);
+		$stmt->fetch();
+
+		$_SESSION['userinfo'] = [
+			'username' => $username,
+			'nickname' => $nickname,
+			'uuid' => $uuid
+		];
+
+		$returnObject = array(
+			"result" => "success"
+		);
+
+		$stmt->close();
+		$mysqli->close();
+
+		return $returnObject;
 	}
 
 	function sign_up_user($username, $password, $password_again) {
@@ -102,9 +144,6 @@
 			return $exception->get_response_object(2004);
 		}
 
-		// $query_result = mysql_query(sprintf(query_list::query_user_exists, $username));
-
-
 		$stmt = $mysqli->prepare(query_list::query_user_exists);
 		$stmt->bind_param("s", $username);
 		$stmt->execute();
@@ -119,7 +158,10 @@
 		$password = md5($password);
 		$ip_address = get_user_ip_address();
 
-		mysql_query(sprintf(query_list::query_append_user, $username, $nickname, $password, $ip_address));
+		$stmt->close();
+		$stmt = $mysqli->prepare(query_list::query_append_user);
+		$stmt->bind_param("ssss", $username, $nickname, $password, $ip_address);
+		$stmt->execute();
 
 		$returnObject = array(
 			"result" => "success"
@@ -127,8 +169,6 @@
 
 		$stmt->close();
 		$mysqli->close();
-		// mysql_free_result($query_result);
-		// mysql_close();
 
 		return $returnObject;
 	}

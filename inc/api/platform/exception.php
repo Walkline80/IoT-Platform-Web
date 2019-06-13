@@ -24,6 +24,9 @@
 				case 2005:
 					$error_msg = "用户已存在！";
 					break;
+				case 2006:
+					$error_msg = "用户不存在，或密码不正确！";
+					break;
 			}
 
 			$returnObject = array(
