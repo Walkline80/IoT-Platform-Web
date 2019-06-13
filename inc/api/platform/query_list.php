@@ -28,16 +28,35 @@
 					UUID(),
 					NOW()
 				)";
+		
 		const query_sign_in_user =
 			"SELECT
 				email,
 				nickname,
-				uuid
+				uuid,
+				enabled
 			FROM
 				iot_users
 			WHERE
 				email = ?
 			AND passwd = ?
 			LIMIT 1";
+		
+		const query_append_user_operation =
+			"INSERT INTO iot_user_operations (
+				uuid,
+				op_type,
+				operation,
+				ip,
+				date
+			)
+			VALUES
+				(
+					?,
+					?,
+					?,
+					?,
+					NOW()
+				)";
 	}
 ?>

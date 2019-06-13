@@ -27,6 +27,9 @@
 				case 2006:
 					$error_msg = "用户不存在，或密码不正确！";
 					break;
+				case 2007:
+					$error_msg = "当前用户不允许登录！";
+					break;
 			}
 
 			$returnObject = array(

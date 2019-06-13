@@ -43,32 +43,40 @@
 	echo json_encode($returnObject);
 
 
-	// if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-	// 	switch ($_REQUEST['v1']) {
-	// 		case 'getChartsDataTimeline':
-	// 			$returnObject = getChartsDataTimeline();
-
-	// 			break;
-	// 		case 'getRecorders':
-	// 			$returnObject = getRecorders(@$_GET['start_date'], @$_GET['end_date'], @$_GET['name'],
-	// 										@$_GET['sub_index'], @$_GET['class_number'], @$_GET['grade_number']);
-
-	// 			break;
-	// 		case 'getSubjects':
-	// 			$returnObject = getSubjects(@$_GET['need_count'], @$_GET['need_format']);
-
-	// 			break
-	// 		default:
-	// 			$returnObject = (object) array(
-	// 				"error_code" => 1001,
-	// 				"error_msg" => "未知的api接口"
-	// 			);
-	// 	}
-	// 	echo json_encode($returnObject);
-	// }
 
 
+	
+	/**
+	 * 添加用户操作记录
+	 */
+	function append_user_operation($op_type, $operation, $username="") {
+		/*
+			op_type:
+					1 = Login, 用户登入、登出等操作;
+					2 = Device, 添加、删除设备等操作;
+					3 = Control, 发送控制命令等操作;
+					4 = Data, 接收设备数据等操作;
+					5 = Remote, 接收来自远端命令等操作，如来自天猫精灵;
+		*/
+
+		global $mysqli;
+
+		$stmt = $mysqli->prepare(query_list::query_append_user_operation);
+		$stmt->bind_param("siss", $uuid, $op_type, $operation, $ip_address);
+
+		$uuid = isset($_SESSION['userinfo']['uuid']) ? $_SESSION['userinfo']['uuid'] : $username;
+		$ip_address = get_user_ip_address();
+
+		$stmt->execute();
+		$stmt->close();
+	}
+
+	/**
+	 * 用户登出操作
+	 */
 	function log_out_user() {
+		append_user_operation(1, "用户登出");
+
 		unset($_SESSION['userinfo']);
 
 		$returnObject = array(
@@ -78,6 +86,9 @@
 		return $returnObject;
 	}
 
+	/**
+	 * 用户登录操作
+	 */
 	function sign_in_user($username, $password) {
 		global $exception, $query_list, $mysqli;
 
@@ -97,11 +108,19 @@
 		$stmt->store_result();
 
 		if ($stmt->num_rows() == 0) {
+			append_user_operation(1, "用户未注册，或密码错误", $username);
+
 			return $exception->get_response_object(2006);
 		}
 
-		$stmt->bind_result($username, $nickname, $uuid);
+		$stmt->bind_result($username, $nickname, $uuid, $enabled);
 		$stmt->fetch();
+
+		if ($enabled == 0) {
+			append_user_operation(1, "用户禁止登录", $username);
+
+			return $exception->get_response_object(2007);
+		}
 
 		$_SESSION['userinfo'] = [
 			'username' => $username,
@@ -113,12 +132,17 @@
 			"result" => "success"
 		);
 
+		append_user_operation(1, "用户登入");
+
 		$stmt->close();
 		$mysqli->close();
 
 		return $returnObject;
 	}
 
+	/**
+	 * 用户注册操作
+	 */
 	function sign_up_user($username, $password, $password_again) {
 		global $exception, $query_list, $mysqli;
 		
@@ -172,6 +196,23 @@
 
 		return $returnObject;
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	
 	function getChartsDataSubjectsBar() {
