@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2019-06-13 15:28:58
+Date: 2019-06-21 22:02:08
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -47,11 +47,16 @@ CREATE TABLE `iot_users` (
   `mobile` varchar(11) DEFAULT NULL,
   `uuid` varchar(36) NOT NULL DEFAULT '',
   `usergroup` int(11) NOT NULL DEFAULT '2',
+  `device_limit` int(11) NOT NULL DEFAULT '3',
   `enabled` int(11) NOT NULL DEFAULT '0',
   `ip` varchar(15) DEFAULT NULL,
   `date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of iot_users
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for iot_user_groups
@@ -81,4 +86,8 @@ CREATE TABLE `iot_user_operations` (
   `ip` varchar(15) DEFAULT NULL,
   `date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of iot_user_operations
+-- ----------------------------
