@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2019-06-24 10:46:16
+Date: 2019-06-24 15:31:50
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -69,6 +69,26 @@ INSERT INTO `iot_aligenie_device_catalogs` VALUES ('37', '跑步机', 'treadmill
 INSERT INTO `iot_aligenie_device_catalogs` VALUES ('38', '智能门控(门锁)', 'smart-gating');
 INSERT INTO `iot_aligenie_device_catalogs` VALUES ('39', '智能手环', 'smart-band');
 INSERT INTO `iot_aligenie_device_catalogs` VALUES ('40', '晾衣架', 'hanger');
+
+-- ----------------------------
+-- Table structure for iot_operations
+-- ----------------------------
+DROP TABLE IF EXISTS `iot_operations`;
+CREATE TABLE `iot_operations` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `op_type` int(11) NOT NULL,
+  `operation` int(11) NOT NULL,
+  `description` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of iot_operations
+-- ----------------------------
+INSERT INTO `iot_operations` VALUES ('1', '1', '1', '用户登入');
+INSERT INTO `iot_operations` VALUES ('2', '1', '2', '用户登出');
+INSERT INTO `iot_operations` VALUES ('3', '1', '3', '用户未注册，或密码错误');
+INSERT INTO `iot_operations` VALUES ('4', '1', '4', '用户禁止登录');
 
 -- ----------------------------
 -- Table structure for iot_operation_types
@@ -133,7 +153,7 @@ CREATE TABLE `iot_user_operations` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uuid` varchar(36) NOT NULL,
   `op_type` int(11) NOT NULL,
-  `operation` varchar(200) NOT NULL,
+  `operation` int(11) NOT NULL,
   `ip` varchar(15) DEFAULT NULL,
   `date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)

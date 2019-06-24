@@ -15,13 +15,13 @@
 	include_once('../../functions.php');
 	include_once('exception.php');
 	include_once('query_list.php');
+	include_once('operations.php');
 
 	session_set_cookie_params(24 * 3600 * 365, "/");
 	session_start();
 
 	$returnObject = array();
 	$exception = new api_error();
-	$query_list = new query_list();
 
 	if ($_SERVER['REQUEST_METHOD'] === "POST") {
 		switch ($_REQUEST['v1']) {
@@ -52,9 +52,6 @@
 
 	echo json_encode($returnObject);
 
-
-
-
 	
 	/**
 	 * 添加用户操作记录
@@ -72,7 +69,7 @@
 		global $mysqli;
 
 		$stmt = $mysqli->prepare(query_list::query_append_user_operation);
-		$stmt->bind_param("siss", $uuid, $op_type, $operation, $ip_address);
+		$stmt->bind_param("siis", $uuid, $op_type, $operation, $ip_address);
 
 		$uuid = isset($_SESSION['userinfo']['uuid']) ? $_SESSION['userinfo']['uuid'] : $username;
 		$ip_address = get_user_ip_address();
@@ -85,7 +82,8 @@
 	 * 用户登出操作
 	 */
 	function log_out_user() {
-		append_user_operation(1, "用户登出");
+		// append_user_operation(1, "用户登出");
+		append_user_operation(Operations::Login, Login::log_out);
 
 		unset($_SESSION['userinfo']);
 
@@ -100,7 +98,7 @@
 	 * 用户登录操作
 	 */
 	function sign_in_user($username, $password) {
-		global $exception, $query_list, $mysqli;
+		global $exception, $mysqli;
 
 		$username = strtolower($username);
 
@@ -118,7 +116,8 @@
 		$stmt->store_result();
 
 		if ($stmt->num_rows() == 0) {
-			append_user_operation(1, "用户未注册，或密码错误", $username);
+			// append_user_operation(1, "用户未注册，或密码错误", $username);
+			append_user_operation(Operations::Login, Login::unregisted_or_wrong_password, $username);
 
 			return $exception->get_response_object(2006);
 		}
@@ -127,7 +126,8 @@
 		$stmt->fetch();
 
 		if ($enabled == 0) {
-			append_user_operation(1, "用户禁止登录", $username);
+			// append_user_operation(1, "用户禁止登录", $username);
+			append_user_operation(Operations::Login, Login::forbidden, $username);
 
 			return $exception->get_response_object(2007);
 		}
@@ -142,7 +142,8 @@
 			"result" => "success"
 		);
 
-		append_user_operation(1, "用户登入");
+		// append_user_operation(1, "用户登入");
+		append_user_operation(Operations::Login, Login::log_in);
 
 		$stmt->close();
 		$mysqli->close();
@@ -154,7 +155,7 @@
 	 * 用户注册操作
 	 */
 	function sign_up_user($username, $password, $password_again) {
-		global $exception, $query_list, $mysqli;
+		global $exception, $mysqli;
 		
 		$username = strtolower($username);
 
