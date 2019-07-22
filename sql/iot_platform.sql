@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2019-06-24 15:31:50
+Date: 2019-07-22 18:04:57
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -71,6 +71,28 @@ INSERT INTO `iot_aligenie_device_catalogs` VALUES ('39', '智能手环', 'smart-
 INSERT INTO `iot_aligenie_device_catalogs` VALUES ('40', '晾衣架', 'hanger');
 
 -- ----------------------------
+-- Table structure for iot_devices
+-- ----------------------------
+DROP TABLE IF EXISTS `iot_devices`;
+CREATE TABLE `iot_devices` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `key` varchar(36) NOT NULL,
+  `secret` varchar(36) NOT NULL,
+  `uuid` varchar(36) DEFAULT NULL,
+  `type` int(11) NOT NULL,
+  `date` datetime DEFAULT NULL,
+  `online_date` datetime DEFAULT NULL,
+  `status` int(11) DEFAULT '0',
+  `aligenie_enabled` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of iot_devices
+-- ----------------------------
+INSERT INTO `iot_devices` VALUES ('1', '73aa1223-ac41-11e9-b2b6-7085c2ae4575', '26235483222704128', 'dfb8e47c-8c24-11e9-914b-7085c2ae4575', '2', '2019-07-22 13:28:03', null, '0', '0');
+
+-- ----------------------------
 -- Table structure for iot_operations
 -- ----------------------------
 DROP TABLE IF EXISTS `iot_operations`;
@@ -127,7 +149,13 @@ CREATE TABLE `iot_users` (
   `ip` varchar(15) DEFAULT NULL,
   `date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of iot_users
+-- ----------------------------
+INSERT INTO `iot_users` VALUES ('9', 'walkline@163.com', 'Walkline', 'e10adc3949ba59abbe56e057f20f883e', null, 'dfb8e47c-8c24-11e9-914b-7085c2ae4575', '2', '3', '1', '::1', '2019-06-11 16:42:41');
+INSERT INTO `iot_users` VALUES ('10', 'walkline@gmail.com', 'Walkline', 'e10adc3949ba59abbe56e057f20f883e', null, 'de41f3f4-8d7e-11e9-914b-7085c2ae4575', '2', '0', '0', '::1', '2019-06-13 09:59:29');
 
 -- ----------------------------
 -- Table structure for iot_user_groups
@@ -157,4 +185,21 @@ CREATE TABLE `iot_user_operations` (
   `ip` varchar(15) DEFAULT NULL,
   `date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of iot_user_operations
+-- ----------------------------
+INSERT INTO `iot_user_operations` VALUES ('2', 'walkline@163.com', '1', '0', '::1', '2019-06-13 14:10:38');
+INSERT INTO `iot_user_operations` VALUES ('3', 'walkline@163.com', '1', '0', '::1', '2019-06-13 14:10:57');
+INSERT INTO `iot_user_operations` VALUES ('4', 'dfb8e47c-8c24-11e9-914b-7085c2ae4575', '1', '0', '::1', '2019-06-13 14:11:23');
+INSERT INTO `iot_user_operations` VALUES ('5', 'dfb8e47c-8c24-11e9-914b-7085c2ae4575', '1', '0', '::1', '2019-06-13 14:14:08');
+INSERT INTO `iot_user_operations` VALUES ('6', 'dfb8e47c-8c24-11e9-914b-7085c2ae4575', '1', '0', '::1', '2019-06-13 14:14:31');
+INSERT INTO `iot_user_operations` VALUES ('7', 'dfb8e47c-8c24-11e9-914b-7085c2ae4575', '1', '0', '::1', '2019-06-13 14:15:22');
+INSERT INTO `iot_user_operations` VALUES ('8', 'dfb8e47c-8c24-11e9-914b-7085c2ae4575', '1', '0', '::1', '2019-06-13 14:15:37');
+INSERT INTO `iot_user_operations` VALUES ('9', 'dfb8e47c-8c24-11e9-914b-7085c2ae4575', '1', '1', '::1', '2019-06-24 14:59:53');
+INSERT INTO `iot_user_operations` VALUES ('10', 'dfb8e47c-8c24-11e9-914b-7085c2ae4575', '1', '2', '::1', '2019-06-24 15:07:40');
+INSERT INTO `iot_user_operations` VALUES ('11', 'walkline@163.com', '1', '3', '::1', '2019-07-22 10:29:37');
+INSERT INTO `iot_user_operations` VALUES ('12', 'dfb8e47c-8c24-11e9-914b-7085c2ae4575', '1', '1', '::1', '2019-07-22 10:29:46');
+INSERT INTO `iot_user_operations` VALUES ('13', 'dfb8e47c-8c24-11e9-914b-7085c2ae4575', '1', '1', '::1', '2019-07-22 17:08:36');
+INSERT INTO `iot_user_operations` VALUES ('14', 'dfb8e47c-8c24-11e9-914b-7085c2ae4575', '1', '1', '::1', '2019-07-22 17:10:07');
