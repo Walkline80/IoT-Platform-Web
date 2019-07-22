@@ -7,12 +7,14 @@
 
 		<link rel="stylesheet" href="./css/main.css">
 		<link rel="stylesheet" href="./vendor/Bootstrap/css/bootstrap.min.css" crossorigin="anonymous">
+		<link rel="stylesheet" href="./vendor/Bootstrap/css/dashboard.css">
+		<link rel="stylesheet" href="./vendor/FontAwesome/css/fontawesome-all.min.css">
 		<link rel="stylesheet" href="./vendor/Toastr/toastr.min.css">
 
 		<title>控制台 - 走线物联</title>
 	</head>
 	<body>
-		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="z-index: 999;">
 			<a class="navbar-brand mb-0 h1" href="/">走线物联</a>
 			
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,25 +29,37 @@
 			</div>
 		</nav>
 		
-		<div class="container">
-			<div class="row" ###SHOWHIDE###>
-				<div class="col-md-8"></div>
-				<div class="col-md-4">
-					<div class="login_box">
-						<!-- <form> -->
-						<div class="form-group">
-							<label for="sign_in_username">用户名</label>
-							<input type="email" class="form-control" id="sign_in_username" placeholder="输入邮箱账号或者手机号">
-						</div>
-						<div class="form-group">
-							<label for="sign_in_password">密码</label>
-							<input type="password" class="form-control" id="sign_in_password" placeholder="输入密码">
-						</div>
-
-						<button id="signin" class="btn btn-primary btn-block">登录</button>
-						<!-- </form> -->
+		<div class="container-fluid">
+			<div class="row">
+				<nav class="col-md-2 d-md-block bg-light sidebar">
+					<div class="sidebar-sticky">
+					<ul class="nav flex-column">
+						<li class="nav-item">
+							<a class="nav-link active" href="#"><i class="fab fa-docker feather"></i> Dashboard</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="console.php?page=devices"><span class="fas fa-cog feather"></span> Device</a>
+						</li>
+					</ul>
 					</div>
-				</div>
+				</nav>
+
+				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+					<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+						<h1 class="h2">Dashboard</h1>
+						<div class="btn-toolbar mb-2 mb-md-0">
+							<div class="btn-group mr-2">
+								<button class="btn btn-sm btn-outline-secondary">Share</button>
+								<button class="btn btn-sm btn-outline-secondary">Export</button>
+							</div>
+							<button class="btn btn-sm btn-outline-secondary dropdown-toggle">
+								<span data-feather="calendar"></span>
+								This week
+							</button>
+						</div>
+					</div>
+					<h1>hhhhahahahhahaha</h1>
+				</main>
 			</div>
 		</div>
 

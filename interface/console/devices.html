@@ -7,31 +7,81 @@
 
 		<link rel="stylesheet" href="./css/main.css">
 		<link rel="stylesheet" href="./vendor/Bootstrap/css/bootstrap.min.css" crossorigin="anonymous">
+		<link rel="stylesheet" href="./vendor/Bootstrap/css/dashboard.css">
+		<link rel="stylesheet" href="./vendor/FontAwesome/css/fontawesome-all.min.css">
 		<link rel="stylesheet" href="./vendor/Toastr/toastr.min.css">
+		<link rel="stylesheet" href="./css/jquery.dataTables.min.css" />
 
 		<title>走线物联</title>
 	</head>
 	<body>
-		###NAVBAR###
-		<div class="container">
-			<div class="row" ###SHOWHIDE###>
-				<div class="col-md-8"></div>
-				<div class="col-md-4">
-					<div class="login_box">
-						<!-- <form> -->
-						<div class="form-group">
-							<label for="sign_in_username">用户名</label>
-							<input type="email" class="form-control" id="sign_in_username" placeholder="输入邮箱账号或者手机号">
-						</div>
-						<div class="form-group">
-							<label for="sign_in_password">密码</label>
-							<input type="password" class="form-control" id="sign_in_password" placeholder="输入密码">
-						</div>
-
-						<button id="signin" class="btn btn-primary btn-block">登录</button>
-						<!-- </form> -->
-					</div>
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="z-index: 999;">
+			<a class="navbar-brand mb-0 h1" href="/">走线物联</a>
+					
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+		
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<div class="navbar-nav mr-auto">
+					<a class="nav-item nav-link" href="console.php">我的控制台</a>
+					<a class="nav-item nav-link" href="#" id="logout">退出</a>
 				</div>
+			</div>
+		</nav>
+
+		<div class="container-fluid">
+			<div class="row">
+				<nav class="col-md-2 d-none d-md-block bg-light sidebar">
+					<div class="sidebar-sticky">
+						<ul class="nav flex-column">
+							<li class="nav-item">
+								<a class="nav-link" href="/console.php"><i class="fab fa-docker feather"></i> Dashboard</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link active" href="#"><span class="fas fa-cog feather"></span> Device</a>
+							</li>
+						</ul>
+					</div>
+				</nav>
+	
+				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+					<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+						<h1 class="h2">Devices</h1>
+						<div class="btn-toolbar mb-2 mb-md-0">
+							<div class="btn-group mr-2">
+								<button class="btn btn-sm btn-outline-secondary">Share</button>
+								<button class="btn btn-sm btn-outline-secondary">Export</button>
+							</div>
+							<button class="btn btn-sm btn-outline-secondary dropdown-toggle">
+								<span data-feather="calendar"></span>
+								This week
+							</button>
+						</div>
+					</div>
+					<button class="btn btn-primary">Add</button>
+
+					<br />
+					<br />
+
+					<div class="row">
+						<div class="col-md-12">
+							<table id="datatable" class="table data-table hover">
+								<thead>
+									<tr>
+										<th>key</th>
+										<th>secret</th>
+										<th>type</th>
+										<th>date</th>
+										<th>online_date</th>
+										<th>status</th>
+										<th>aligenie_enabled</th>
+									</tr>
+								</thead>
+							</table>
+						</div>
+					</div>
+				</main>
 			</div>
 		</div>
 
@@ -40,10 +90,11 @@
 		</nav>
 
 		<script src="./vendor/JQuery/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+		<script src="./vendor/JQuery/jquery.dataTables.min.js"></script>
 		<script src="./vendor/Bootstrap/js/bootstrap.min.js" crossorigin="anonymous"></script>
 		<script src="./vendor/Toastr/toastr.min.js"></script>
 		<script src="./vendor/Tools/jquery.md5.js"></script>
 		<script src="./js/functions.js"></script>
-		<script src="./js/index.js"></script>
+		<script src="./js/manage_device.js"></script>
 	</body>
 </html>
