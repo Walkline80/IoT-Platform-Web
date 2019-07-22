@@ -26,7 +26,8 @@
 	if ($_SERVER['REQUEST_METHOD'] === "POST") {
 		switch ($_REQUEST['v1']) {
 			case 'query_command':
-				$returnObject = query_command(@$_POST['uuid'], @$_POST['device_id'], @$_POST['device_key'], @$_POST['type'], @$_POST['status']);
+				$post = json_decode(file_get_contents('php://input'), true);
+				$returnObject = query_command(@$post['uuid'], @$post['device_id'], @$post['device_key'], @$post['type'], @$post['status']);
 
 				break;
 			case 'get_device_lists':
@@ -88,7 +89,7 @@
 		// 	return $exception->get_response_object(5000);
 		// }
 
-		if (!$uuid || !$device_id || !$device_key || !$type || !isset($status)) {
+		if (!isset($uuid) || !isset($device_id) || !isset($device_key) || !isset($type) || !isset($status)) {
 			return $exception->get_response_object(2008);
 		}
 
@@ -97,12 +98,20 @@
 		$stmt->execute();
 		$stmt->store_result();
 
-		if ($stmt->num_rows() == 0) {
-			//
-		}
+		// if ($stmt->num_rows() == 0) {
+		// 	//
+		// }
+
+		$stmt = $mysqli->prepare(query_list::query_device_wanted_status);
+		$stmt->bind_param("sss", $uuid, $device_id, $device_key);
+		$stmt->execute();
+		$stmt->store_result();
+		$stmt->bind_result($wanted_status);
+		$stmt->fetch();
 
 		$returnObject = array(
-			"result" => "success"
+			"result" => "success",
+			"wanted_status" => $wanted_status
 		);
 
 		return $returnObject;
@@ -125,12 +134,12 @@
 		$stmt->execute();
 		$stmt->store_result();
 
-		if ($stmt->num_rows() == 0) {
-			// append_user_operation(1, "用户未注册，或密码错误", $username);
-			append_user_operation(Operations::Login, Login::unregisted_or_wrong_password, $username);
+		// if ($stmt->num_rows() == 0) {
+		// 	// append_user_operation(1, "用户未注册，或密码错误", $username);
+		// 	append_user_operation(Operations::Login, Login::unregisted_or_wrong_password, $username);
 
-			return $exception->get_response_object(2006);
-		}
+		// 	return $exception->get_response_object(2006);
+		// }
 
 		$stmt->bind_result($key, $secret, $type, $date, $online_date, $status, $aligenie_enabled);
 		

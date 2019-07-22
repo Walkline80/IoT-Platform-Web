@@ -35,19 +35,16 @@
 				AND `key` = ?
 				AND secret = ?";
 		
-		// 查询用户记录是否存在，用于用户登录
-		const query_sign_in_user =
+		// 查询设备预期状态
+		const query_device_wanted_status =
 			"SELECT
-				email,
-				nickname,
-				uuid,
-				enabled
+				wanted
 			FROM
-				iot_users
+				iot_devices
 			WHERE
-				email = ?
-			AND passwd = ?
-			LIMIT 1";
+				uuid = ?
+			AND `key` = ?
+			AND secret = ?";
 		
 		// 插入用户操作记录
 		const query_append_user_operation =
