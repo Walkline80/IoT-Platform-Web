@@ -25,19 +25,20 @@
 
 	if ($_SERVER['REQUEST_METHOD'] === "POST") {
 		switch ($_REQUEST['v1']) {
-			case 'query_command':
-				$post = json_decode(file_get_contents('php://input'), true);
-				$returnObject = query_command(@$post['uuid'], @$post['device_id'], @$post['device_key'], @$post['type'], @$post['status']);
+			// case 'query_command':
+			// 	$post = json_decode(file_get_contents('php://input'), true);
+			// 	$returnObject = query_command(@$post['uuid'], @$post['device_id'], @$post['device_key'], @$post['type'], @$post['status']);
 
-				break;
+			// 	break;
 			case 'get_device_lists':
-				$returnObject = get_device_lists();
+				$post = json_decode(file_get_contents('php://input'), true);
+				$returnObject = get_device_lists(@$post['openID']);
 
 				break;
-			case 'log_out_user':
-				$returnObject = log_out_user();
+			// case 'log_out_user':
+			// 	$returnObject = log_out_user();
 
-				break;
+			// 	break;
 			default:
 				$returnObject = (object) array(
 					"error_code" => 1001,
@@ -120,27 +121,17 @@
 	/**
 	 * 获取用户设备列表
 	 */
-	function get_device_lists() {
+	function get_device_lists($openID) {
 		global $exception, $mysqli;
 
-		if (!isset($_SESSION['userinfo']) || !isset($_SESSION['userinfo']['uuid'])) {
-			return $exception->get_response_object(5000);
+		if (!isset($openID) || !$openID) {
+			return $exception->get_response_object(2009);
 		}
 
-		$uuid = $_SESSION['userinfo']['uuid'];
-
 		$stmt = $mysqli->prepare(query_list::query_device_lists);
-		$stmt->bind_param("s", $uuid);
+		$stmt->bind_param("s", $openID);
 		$stmt->execute();
 		$stmt->store_result();
-
-		// if ($stmt->num_rows() == 0) {
-		// 	// append_user_operation(1, "用户未注册，或密码错误", $username);
-		// 	append_user_operation(Operations::Login, Login::unregisted_or_wrong_password, $username);
-
-		// 	return $exception->get_response_object(2006);
-		// }
-
 		$stmt->bind_result($key, $secret, $type, $date, $online_date, $status, $aligenie_enabled);
 		
 		$data_array = array();
@@ -158,13 +149,6 @@
 
 			$data_array[] = $list;
 		}
-
-		// if ($enabled == 0) {
-		// 	// append_user_operation(1, "用户禁止登录", $username);
-		// 	append_user_operation(Operations::Login, Login::forbidden, $username);
-
-		// 	return $exception->get_response_object(2007);
-		// }
 
 		$returnObject = array(
 			"result" => "success",

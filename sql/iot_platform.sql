@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2019-07-22 18:04:57
+Date: 2019-07-25 16:20:04
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -83,6 +83,7 @@ CREATE TABLE `iot_devices` (
   `date` datetime DEFAULT NULL,
   `online_date` datetime DEFAULT NULL,
   `status` int(11) DEFAULT '0',
+  `wanted` int(11) DEFAULT '-1',
   `aligenie_enabled` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
@@ -90,7 +91,7 @@ CREATE TABLE `iot_devices` (
 -- ----------------------------
 -- Records of iot_devices
 -- ----------------------------
-INSERT INTO `iot_devices` VALUES ('1', '73aa1223-ac41-11e9-b2b6-7085c2ae4575', '26235483222704128', 'dfb8e47c-8c24-11e9-914b-7085c2ae4575', '2', '2019-07-22 13:28:03', null, '0', '0');
+INSERT INTO `iot_devices` VALUES ('1', '73aa1223-ac41-11e9-b2b6-7085c2ae4575', '26235483222704128', 'dfb8e47c-8c24-11e9-914b-7085c2ae4575', '2', '2019-07-22 13:28:03', null, '0', '0', '0');
 
 -- ----------------------------
 -- Table structure for iot_operations
@@ -138,6 +139,7 @@ INSERT INTO `iot_operation_types` VALUES ('5', 'Remote', '接收来自远端命�
 DROP TABLE IF EXISTS `iot_users`;
 CREATE TABLE `iot_users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `openid` char(32) DEFAULT NULL,
   `email` varchar(20) NOT NULL,
   `nickname` varchar(20) DEFAULT NULL,
   `passwd` varchar(32) NOT NULL,
@@ -154,8 +156,7 @@ CREATE TABLE `iot_users` (
 -- ----------------------------
 -- Records of iot_users
 -- ----------------------------
-INSERT INTO `iot_users` VALUES ('9', 'walkline@163.com', 'Walkline', 'e10adc3949ba59abbe56e057f20f883e', null, 'dfb8e47c-8c24-11e9-914b-7085c2ae4575', '2', '3', '1', '::1', '2019-06-11 16:42:41');
-INSERT INTO `iot_users` VALUES ('10', 'walkline@gmail.com', 'Walkline', 'e10adc3949ba59abbe56e057f20f883e', null, 'de41f3f4-8d7e-11e9-914b-7085c2ae4575', '2', '0', '0', '::1', '2019-06-13 09:59:29');
+INSERT INTO `iot_users` VALUES ('9', 'oy9W15GCIwazn8NCjE6wPZPmRkus', 'walkline@163.com', 'Walkline', 'e10adc3949ba59abbe56e057f20f883e', null, 'dfb8e47c-8c24-11e9-914b-7085c2ae4575', '2', '3', '1', '::1', '2019-06-11 16:42:41');
 
 -- ----------------------------
 -- Table structure for iot_user_groups
@@ -185,7 +186,7 @@ CREATE TABLE `iot_user_operations` (
   `ip` varchar(15) DEFAULT NULL,
   `date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of iot_user_operations
@@ -203,3 +204,7 @@ INSERT INTO `iot_user_operations` VALUES ('11', 'walkline@163.com', '1', '3', ':
 INSERT INTO `iot_user_operations` VALUES ('12', 'dfb8e47c-8c24-11e9-914b-7085c2ae4575', '1', '1', '::1', '2019-07-22 10:29:46');
 INSERT INTO `iot_user_operations` VALUES ('13', 'dfb8e47c-8c24-11e9-914b-7085c2ae4575', '1', '1', '::1', '2019-07-22 17:08:36');
 INSERT INTO `iot_user_operations` VALUES ('14', 'dfb8e47c-8c24-11e9-914b-7085c2ae4575', '1', '1', '::1', '2019-07-22 17:10:07');
+INSERT INTO `iot_user_operations` VALUES ('15', 'dfb8e47c-8c24-11e9-914b-7085c2ae4575', '1', '1', '::1', '2019-07-23 15:47:20');
+INSERT INTO `iot_user_operations` VALUES ('16', 'dfb8e47c-8c24-11e9-914b-7085c2ae4575', '1', '1', '::1', '2019-07-24 09:18:28');
+INSERT INTO `iot_user_operations` VALUES ('17', 'dfb8e47c-8c24-11e9-914b-7085c2ae4575', '1', '1', '::1', '2019-07-24 09:18:58');
+INSERT INTO `iot_user_operations` VALUES ('18', 'dfb8e47c-8c24-11e9-914b-7085c2ae4575', '1', '1', '::1', '2019-07-25 15:53:33');

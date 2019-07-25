@@ -1,0 +1,5 @@
+Options +FollowSymlinks
+RewriteEngine on
+
+# ÷ÿ–¥πÊ‘Ú
+RewriteRule ^v1/(\w+)$   index_v1.php?v1=$1 [nc,qsa]
