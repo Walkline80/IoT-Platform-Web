@@ -32,13 +32,23 @@
 			// 	break;
 			case 'get_device_lists':
 				$post = json_decode(file_get_contents('php://input'), true);
-				$returnObject = get_device_lists(@$post['openID']);
+				$returnObject = get_device_lists(@$post['open_id']);
 
 				break;
 			// case 'log_out_user':
 			// 	$returnObject = log_out_user();
 
 			// 	break;
+			case 'get_device_status':
+				$post = json_decode(file_get_contents('php://input'), true);
+				$returnObject = get_device_status(@$post['open_id'], @$post['device_id'], @$post['device_key'], @$post['type']);
+
+				break;
+			case 'set_device_status':
+				$post = json_decode(file_get_contents('php://input'), true);
+				$returnObject = set_device_status(@$post['open_id'], @$post['device_id'], @$post['device_key'], @$post['type'], @$post['status']);
+
+				break;
 			default:
 				$returnObject = (object) array(
 					"error_code" => 1001,
@@ -83,37 +93,95 @@
 	/**
 	 * 更新设备状态
 	 */
-	function query_command($uuid, $device_id, $device_key, $type, $status) {
+	// function query_command($uuid, $device_id, $device_key, $type, $status) {
+	// 	global $exception, $mysqli;
+
+	// 	// if (!isset($_SESSION['userinfo']) || !isset($_SESSION['userinfo']['uuid'])) {
+	// 	// 	return $exception->get_response_object(5000);
+	// 	// }
+
+	// 	if (!isset($uuid) || !isset($device_id) || !isset($device_key) || !isset($type) || !isset($status)) {
+	// 		return $exception->get_response_object(2008);
+	// 	}
+
+	// 	$stmt = $mysqli->prepare(query_list::query_command);
+	// 	$stmt->bind_param("dsss", $status, $uuid, $device_id, $device_key);
+	// 	$stmt->execute();
+	// 	$stmt->store_result();
+
+	// 	// if ($stmt->num_rows() == 0) {
+	// 	// 	//
+	// 	// }
+
+	// 	$stmt = $mysqli->prepare(query_list::query_device_wanted_status);
+	// 	$stmt->bind_param("sss", $uuid, $device_id, $device_key);
+	// 	$stmt->execute();
+	// 	$stmt->store_result();
+	// 	$stmt->bind_result($wanted_status);
+	// 	$stmt->fetch();
+
+	// 	$returnObject = array(
+	// 		"result" => "success",
+	// 		"wanted_status" => $wanted_status
+	// 	);
+
+	// 	return $returnObject;
+	// }
+
+	function get_device_status($open_id, $device_id, $device_key, $type) {
 		global $exception, $mysqli;
 
-		// if (!isset($_SESSION['userinfo']) || !isset($_SESSION['userinfo']['uuid'])) {
-		// 	return $exception->get_response_object(5000);
-		// }
+		if (!isset($open_id) || !$open_id) {
+			return $exception->get_response_object(2009);
+		}
 
-		if (!isset($uuid) || !isset($device_id) || !isset($device_key) || !isset($type) || !isset($status)) {
+		if (!isset($device_id) || !isset($device_key) || !isset($type)) {
 			return $exception->get_response_object(2008);
 		}
 
-		$stmt = $mysqli->prepare(query_list::query_command);
-		$stmt->bind_param("dsss", $status, $uuid, $device_id, $device_key);
+		$stmt = $mysqli->prepare(query_list::query_device_status);
+		$stmt->bind_param("sssd", $open_id, $device_id, $device_key, $type);
 		$stmt->execute();
 		$stmt->store_result();
-
-		// if ($stmt->num_rows() == 0) {
-		// 	//
-		// }
-
-		$stmt = $mysqli->prepare(query_list::query_device_wanted_status);
-		$stmt->bind_param("sss", $uuid, $device_id, $device_key);
-		$stmt->execute();
-		$stmt->store_result();
-		$stmt->bind_result($wanted_status);
+		$stmt->bind_result($status);
 		$stmt->fetch();
 
 		$returnObject = array(
 			"result" => "success",
-			"wanted_status" => $wanted_status
+			"status" => $status
 		);
+
+		$stmt->close();
+		$mysqli->close();
+
+		return $returnObject;
+	}
+
+	function set_device_status($open_id, $device_id, $device_key, $type, $status) {
+		global $exception, $mysqli;
+
+		if (!isset($open_id) || !$open_id) {
+			return $exception->get_response_object(2009);
+		}
+
+		if (!isset($device_id) || !isset($device_key) || !isset($type) || !isset($status)) {
+			return $exception->get_response_object(2008);
+		}
+
+		$stmt = $mysqli->prepare(query_list::query_set_device_status);
+		$stmt->bind_param("dsssd", $status, $open_id, $device_id, $device_key, $type);
+		$stmt->execute();
+		$stmt->store_result();
+		// $stmt->bind_result($status);
+		// $stmt->fetch();
+
+		$returnObject = array(
+			"result" => "success"
+			// "status" => $status
+		);
+
+		$stmt->close();
+		$mysqli->close();
 
 		return $returnObject;
 	}
@@ -121,15 +189,15 @@
 	/**
 	 * 获取用户设备列表
 	 */
-	function get_device_lists($openID) {
+	function get_device_lists($open_id) {
 		global $exception, $mysqli;
 
-		if (!isset($openID) || !$openID) {
+		if (!isset($open_id) || !$open_id) {
 			return $exception->get_response_object(2009);
 		}
 
 		$stmt = $mysqli->prepare(query_list::query_device_lists);
-		$stmt->bind_param("s", $openID);
+		$stmt->bind_param("s", $open_id);
 		$stmt->execute();
 		$stmt->store_result();
 		$stmt->bind_result($key, $secret, $type, $date, $online_date, $status, $aligenie_enabled);

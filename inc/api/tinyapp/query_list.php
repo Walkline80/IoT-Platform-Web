@@ -26,43 +26,66 @@
 			INNER JOIN iot_users AS users ON (users.uuid = devices.uuid)
 			WHERE
 				users.openid = ?";
-		
+
+		// 查询指定设备状态
+		const query_device_status =
+			"SELECT
+				devices.`status`
+			FROM
+				iot_devices AS devices
+			INNER JOIN iot_users AS users ON (users.uuid = devices.uuid)
+			WHERE
+				users.openid = ?
+			AND devices.`key` = ?
+			AND devices.secret = ?
+			AND devices.type = ?";
+
+		const query_set_device_status =
+			"UPDATE iot_devices AS devices
+			INNER JOIN iot_users AS users ON (users.uuid = devices.uuid)
+			SET devices.wanted = ?
+			WHERE
+				users.openid = ?
+			AND devices.`key` = ?
+			AND devices.secret = ?
+			AND devices.type = ?";
+
 		// 更新指定设备状态
-		const query_command =
-			"UPDATE iot_devices
-				SET `status` = ?
-				WHERE
-					uuid = ?
-				AND `key` = ?
-				AND secret = ?";
+		// const query_command =
+		// 	"UPDATE iot_devices
+		// 		SET `status` = ?
+		// 		WHERE
+		// 			uuid = ?
+		// 		AND `key` = ?
+		// 		AND secret = ?";
 		
 		// 查询设备预期状态
-		const query_device_wanted_status =
-			"SELECT
-				wanted
-			FROM
-				iot_devices
-			WHERE
-				uuid = ?
-			AND `key` = ?
-			AND secret = ?";
+		// const query_device_wanted_status =
+		// 	"SELECT
+		// 		wanted
+		// 	FROM
+		// 		iot_devices
+		// 	WHERE
+		// 		uuid = ?
+		// 	AND `key` = ?
+		// 	AND secret = ?";
 		
 		// 插入用户操作记录
-		const query_append_user_operation =
-			"INSERT INTO iot_user_operations (
-				uuid,
-				op_type,
-				operation,
-				ip,
-				date
-			)
-			VALUES
-				(
-					?,
-					?,
-					?,
-					?,
-					NOW()
-				)";
+		// const query_append_user_operation =
+		// 	"INSERT INTO iot_user_operations (
+		// 		uuid,
+		// 		op_type,
+		// 		operation,
+		// 		ip,
+		// 		date
+		// 	)
+		// 	VALUES
+		// 		(
+		// 			?,
+		// 			?,
+		// 			?,
+		// 			?,
+		// 			NOW()
+		// 		)";
 	}
 ?>
