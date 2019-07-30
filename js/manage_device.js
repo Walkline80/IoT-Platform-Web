@@ -358,7 +358,7 @@ app.viewer = {
 			},
 			"serverSide": false,
 			"ajax": {
-				"url": Const.DEVICES_API_URI + Const.Commands.get_device_lists,
+				"url": Const.PLATFORM_API_URI + Const.Commands.get_device_lists,
 				"type": "post",
 				"dataSrc": 'lists'
 			},
@@ -386,82 +386,3 @@ app.viewer = {
 		});
 	}
 };
-
-/* 响应批量修改IP地址按钮*/
-	// $('#btnBatchModifyDeviceIP').on('click', function () {
-	// 	$('#btnBatchModifyDeviceIP').addClass('disabled');
-
-	// 	$('#batchModifyDeviceIpDialog').on('show.bs.modal', function () {
-	// 		$(this).draggable({
-	// 			handle: ".modal-header"
-	// 		});
-			
-    // 		$(this).css("overflow", "hidden");
-    		
-	// 		$('#ipStart_group').removeClass('error');
-	// 		$('#ipEnd_group').removeClass('error');
-
-	// 		$('#txtIpStart').val('');
-	// 		$('#txtIpEnd').val('');
-	// 		$('#batchModifyDeviceIPStatus').html('');
-			
-	// 		centerModals('#batchModifyDeviceIpDialog');
-	// 	});
-
-	// 	$('#batchModifyDeviceIpDialog').on('shown.bs.modal', function () {
-	// 		$('#txtIpStart').focus();
-	// 	});
-
-	// 	$('#batchModifyDeviceIpDialog').on('hidden.bs.modal', function () {
-	// 		$('#btnBatchModifyDeviceIP').removeClass('disabled');
-	// 		$('#btnDoBatchModifyIP').off('click');
-	// 		$('#batchModifyDeviceIpDialog').off('show.bs.modal');
-	// 		$('#batchModifyDeviceIpDialog').off('hidden.bs.modal');
-	// 		$('#txtIpStart').off('keyup');
-	// 	});
-		
-	// 	$('#batchModifyDeviceIpDialog').modal({
-	// 		backdrop: "static"
-	// 	});
-
-	// 	$('#btnDoBatchModifyIP').on('click', function () {
-	// 		var ipStart = $('#txtIpStart').val();
-	// 		var ipEnd = $('#txtIpEnd').val();
-
-	// 		$('#ipStart_group').removeClass('error');
-	// 		$('#ipEnd_group').removeClass('error');
-	// 		$('#batchModifyDeviceIPStatus').html('');
-
-	// 		if ($.trim(ipStart) == "") {
-	// 			$('#ipStart_group').addClass('error');
-	// 			$('#txtIpStart').focus();
-	// 		} else if ($.trim(ipEnd) == "") {
-	// 			$('#ipEnd_group').addClass('error');
-	// 			$('#txtIpEnd').focus();
-	// 		} else {
-	// 			$.post(WEBSERVICEURI + "batchModifyIP", {ipStart: ipStart, ipEnd: ipEnd}, function (result) {
-	// 				if (!result.error_code) {
-	// 					if (result.result === "success") {
-	// 						$('#batchModifyDeviceIpDialog').modal('hide');
-	// 						table.ajax.reload();
-
-	// 						$('#btnDeviceModify').addClass('disabled');
-	// 						$('#btnDeviceDelete').addClass('disabled');
-	// 					}
-	// 				} else {
-	// 					$('#batchModifyDeviceIPStatus').html(result.error_msg);
-	// 				}
-	// 			});
-	// 		}
-	// 	});
-		
-	// 	$('#txtIpStart').on('keyup', function () {
-	// 		$('#txtIpEnd').val($(this).val());
-	// 	});
-
-	// 	$('input[type=text]').keypress(function(e) {
-	// 		if (!String.fromCharCode(e.keyCode).match(/[0-9\.]/)) {
-	// 			return false;
-	// 		}
-	// 	});
-	// });

@@ -24,8 +24,7 @@ var app = {
 		that.controls.button_sign_up.on('click', function () {
 			if (that._check_controls_is_not_empty_or_not_equals()) {
 				if (that._check_email_validation()) {
-					// alert("check email success");
-					$.post(Const.API_URI + Const.Commands.sign_up_user, {
+					$.post(Const.PLATFORM_API_URI + Const.Commands.sign_up_user, {
 						username: that.controls.text_sign_up_username.val(),
 						password: that.controls.text_sign_up_password.val(),
 						password_again: that.controls.text_sign_up_password_again.val()

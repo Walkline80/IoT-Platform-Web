@@ -13,9 +13,9 @@
 
 	include_once('../../connect2db.php');
 	include_once('../../functions.php');
-	include_once('exception.php');
-	include_once('query_list.php');
-	include_once('operations.php');
+	include_once('../exception.php');
+	include_once('../query_list.php');
+	include_once('../operations.php');
 
 	session_set_cookie_params(24 * 3600 * 365, "/");
 	session_start();
@@ -35,6 +35,10 @@
 				break;
 			case 'log_out_user':
 				$returnObject = log_out_user();
+
+				break;
+			case 'get_device_lists':
+				$returnObject = get_device_lists();
 
 				break;
 			default:
@@ -68,7 +72,7 @@
 
 		global $mysqli;
 
-		$stmt = $mysqli->prepare(query_list::query_append_user_operation);
+		$stmt = $mysqli->prepare(query_list_platform::query_append_user_operation);
 		$stmt->bind_param("siis", $uuid, $op_type, $operation, $ip_address);
 
 		$uuid = isset($_SESSION['userinfo']['uuid']) ? $_SESSION['userinfo']['uuid'] : $username;
@@ -76,6 +80,54 @@
 
 		$stmt->execute();
 		$stmt->close();
+	}
+
+	/**
+	 * 获取用户设备列表，用于管理平台网页
+	 */
+	function get_device_lists() {
+		global $exception, $mysqli;
+
+		if (!isset($_SESSION['userinfo']) || !isset($_SESSION['userinfo']['uuid'])) {
+			return $exception->get_response_object(5000);
+		}
+
+		$uuid = $_SESSION['userinfo']['uuid'];
+
+		$stmt = $mysqli->prepare(query_list_platform::query_device_lists);
+		$stmt->bind_param("s", $uuid);
+		$stmt->execute();
+		$stmt->store_result();
+		$stmt->bind_result($key, $secret, $type, $date, $online_date, $status, $aligenie_enabled);
+		
+		$data_array = array();
+
+		while ($stmt->fetch()) {
+			$list = array(
+				"key" => $key,
+				"secret" => $secret,
+				"type" => $type,
+				"date" => $date,
+				"online_date" => $online_date,
+				"status" => $status,
+				"aligenie_enabled" => $aligenie_enabled
+			);
+
+			$data_array[] = $list;
+		}
+
+		$returnObject = array(
+			"result" => "success",
+			"lists" => $data_array
+		);
+
+		// append_user_operation(1, "用户登入");
+		// append_user_operation(Operations::Login, Login::log_in);
+
+		$stmt->close();
+		$mysqli->close();
+
+		return $returnObject;
 	}
 
 	/**
@@ -110,7 +162,7 @@
 			return $exception->get_response_object(2001);
 		}
 
-		$stmt = $mysqli->prepare(query_list::query_sign_in_user);
+		$stmt = $mysqli->prepare(query_list_platform::query_sign_in_user);
 		$stmt->bind_param("ss", $username, $password);
 		$stmt->execute();
 		$stmt->store_result();
@@ -179,7 +231,7 @@
 			return $exception->get_response_object(2004);
 		}
 
-		$stmt = $mysqli->prepare(query_list::query_user_exists);
+		$stmt = $mysqli->prepare(query_list_platform::query_user_exists);
 		$stmt->bind_param("s", $username);
 		$stmt->execute();
 		$stmt->store_result();
@@ -194,7 +246,7 @@
 		$ip_address = get_user_ip_address();
 
 		$stmt->close();
-		$stmt = $mysqli->prepare(query_list::query_append_user);
+		$stmt = $mysqli->prepare(query_list_platform::query_append_user);
 		$stmt->bind_param("ssss", $username, $nickname, $password, $ip_address);
 		$stmt->execute();
 

@@ -21,7 +21,7 @@ var app = {
 
 	_bind_log_out_click_event: function () {
 		this.controls.button_log_out.on('click', function () {
-			$.post(Const.API_URI + Const.Commands.log_out_user, {}, function (result) {
+			$.post(Const.PLATFORM_API_URI + Const.Commands.log_out_user, {}, function (result) {
 				if (!result.error_code) {
 					location.href = "/";
 				}
@@ -34,7 +34,7 @@ var app = {
 
 		that.controls.button_sign_in.on('click', function () {
 			if (that._check_controls_is_not_empty()) {
-				$.post(Const.API_URI + Const.Commands.sign_in_user, {
+				$.post(Const.PLATFORM_API_URI + Const.Commands.sign_in_user, {
 					username: that.controls.text_sign_in_username.val(),
 					password: $.md5(that.controls.text_sign_in_password.val())
 				}, function (result) {

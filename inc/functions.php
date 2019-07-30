@@ -15,4 +15,29 @@
 
 		return $user_ip;
 	}
+
+	function get_url_data($url, $param='') {
+        ini_set("max_execution_time", 100);
+        $curl = curl_init();
+
+		if (is_array($param)) {
+			$param = http_build_query($param);
+		}
+
+		$options = array(
+			CURLOPT_RETURNTRANSFER => 1,
+			CURLOPT_URL => $url . $param,
+			CURLOPT_CONNECTTIMEOUT => 90,
+			CURLOPT_TIMEOUT => 90,
+			CURLOPT_SSL_VERIFYHOST => 2,
+			CURLOPT_SSL_VERIFYPEER => false
+		);
+
+		curl_setopt_array($curl, $options);
+
+		$res = curl_exec($curl);
+        curl_close($curl);
+
+        return $res;
+    }
 ?>

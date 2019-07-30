@@ -39,6 +39,18 @@
 				case 2007:
 					$error_msg = "当前用户不允许登录！";
 					break;
+				case 2008:
+					$error_msg = "参数不全！";
+					break;
+				case 2009:
+					$error_msg = "OpenID不能为空！";
+					break;
+				case 2010:
+					$error_msg = "Code不能为空！";
+					break;
+				case 5000:
+					$error_msg = "请先登录！";
+					break;
 			}
 
 			$returnObject = array(

@@ -1,5 +1,5 @@
 var Const = {
-	API_URI: "./inc/api/platform/v1/",
+	PLATFORM_API_URI: "./inc/api/platform/v1/",
 	DEVICES_API_URI: "./inc/api/devices/v1/",
 
 	Commands: {

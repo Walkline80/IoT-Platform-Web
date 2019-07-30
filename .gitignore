@@ -1,3 +1,4 @@
+tinyapp_config.php
 inc/connect2db.php
 phpinfo.php
 *.iml
