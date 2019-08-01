@@ -3,7 +3,7 @@
 
 	if ($is_local) {
 		$mysql_config = array (
-			'host' => 'localhost',
+			'host' => '127.0.0.1',
 			'db_user' => 'root',
 			'db_pwd'  => '123456',
 			'db'   => 'iot_platform'
