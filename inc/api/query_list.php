@@ -86,6 +86,18 @@
 			AND passwd = ?
 			LIMIT 1";
 		
+		const query_get_user_id =
+			"SELECT
+				uuid,
+				enabled
+			FROM
+				iot_users
+			WHERE
+				email = ?
+			AND passwd = ?
+			AND enabled = 1
+			LIMIT 1";
+
 		// 插入用户操作记录
 		const query_append_user_operation =
 			"INSERT INTO iot_user_operations (

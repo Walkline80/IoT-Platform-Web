@@ -41,6 +41,10 @@
 				$returnObject = get_device_lists();
 
 				break;
+			case 'get_user_id':
+				$returnObject = get_user_id(@$_POST['username'], @$_POST['password']);
+
+				break;
 			default:
 				$returnObject = (object) array(
 					"error_code" => 1001,
@@ -192,6 +196,55 @@
 
 		$returnObject = array(
 			"result" => "success"
+		);
+
+		// append_user_operation(1, "用户登入");
+		append_user_operation(Operations::Login, Login::log_in);
+
+		$stmt->close();
+		$mysqli->close();
+
+		return $returnObject;
+	}
+
+	function get_user_id($username, $password) {
+		global $exception, $mysqli;
+
+		$username = strtolower($username);
+
+		if (!$username) {
+			return $exception->get_response_object(2000);
+		}
+
+		if (!$password) {
+			return $exception->get_response_object(2001);
+		}
+
+		$stmt = $mysqli->prepare(query_list_platform::query_get_user_id);
+		$stmt->bind_param("ss", $username, $password);
+		$stmt->execute();
+		$stmt->store_result();
+
+		if ($stmt->num_rows() == 0) {
+			// append_user_operation(1, "用户未注册，或密码错误", $username);
+			append_user_operation(Operations::Login, Login::unregisted_or_wrong_password, $username);
+
+			return $exception->get_response_object(2006);
+		}
+
+		$stmt->bind_result($uuid, $enabled);
+		$stmt->fetch();
+
+		if ($enabled == 0) {
+			// append_user_operation(1, "用户禁止登录", $username);
+			append_user_operation(Operations::Login, Login::forbidden, $username);
+
+			return $exception->get_response_object(2007);
+		}
+
+		$returnObject = array(
+			"result" => "success",
+			"uuid" => $uuid
 		);
 
 		// append_user_operation(1, "用户登入");
