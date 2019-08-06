@@ -3,14 +3,14 @@ Navicat MySQL Data Transfer
 
 Source Server         : localhost
 Source Server Version : 50553
-Source Host           : localhost:3306
+Source Host           : 127.0.0.1:3306
 Source Database       : iot_platform
 
 Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2019-07-30 10:44:10
+Date: 2019-08-06 13:13:40
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -85,13 +85,20 @@ CREATE TABLE `iot_devices` (
   `status` int(11) DEFAULT '0',
   `wanted` int(11) DEFAULT '-1',
   `aligenie_enabled` int(11) NOT NULL DEFAULT '0',
+  `aligenie_id` varchar(36) DEFAULT '',
+  `aligenie_name` varchar(20) DEFAULT NULL,
+  `aligenie_type` varchar(20) DEFAULT NULL,
+  `aligenie_zone` varchar(20) DEFAULT NULL,
+  `aligenie_brand` varchar(30) DEFAULT '',
+  `aligenie_modal` varchar(30) DEFAULT NULL,
+  `aligenie_icon` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of iot_devices
 -- ----------------------------
-INSERT INTO `iot_devices` VALUES ('1', '73aa1223-ac41-11e9-b2b6-7085c2ae4575', '26235483222704128', 'dfb8e47c-8c24-11e9-914b-7085c2ae4575', '2', '2019-07-22 13:28:03', null, '0', '-1', '0');
+INSERT INTO `iot_devices` VALUES ('1', '73aa1223-ac41-11e9-b2b6-7085c2ae4575', '26235483222704128', 'dfb8e47c-8c24-11e9-914b-7085c2ae4575', '2', '2019-07-22 13:28:03', null, '0', '-1', '1', '26247063108845568', '单路智能开关', 'switch', '办公室', '走线物联', 'wkliot_one_switch', 'https://walkline.wang/iot/images/icons/switch.png');
 
 -- ----------------------------
 -- Table structure for iot_operations
@@ -186,4 +193,25 @@ CREATE TABLE `iot_user_operations` (
   `ip` varchar(15) DEFAULT NULL,
   `date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of iot_user_operations
+-- ----------------------------
+INSERT INTO `iot_user_operations` VALUES ('2', 'walkline@163.com', '1', '0', '::1', '2019-06-13 14:10:38');
+INSERT INTO `iot_user_operations` VALUES ('3', 'walkline@163.com', '1', '0', '::1', '2019-06-13 14:10:57');
+INSERT INTO `iot_user_operations` VALUES ('4', 'dfb8e47c-8c24-11e9-914b-7085c2ae4575', '1', '0', '::1', '2019-06-13 14:11:23');
+INSERT INTO `iot_user_operations` VALUES ('5', 'dfb8e47c-8c24-11e9-914b-7085c2ae4575', '1', '0', '::1', '2019-06-13 14:14:08');
+INSERT INTO `iot_user_operations` VALUES ('6', 'dfb8e47c-8c24-11e9-914b-7085c2ae4575', '1', '0', '::1', '2019-06-13 14:14:31');
+INSERT INTO `iot_user_operations` VALUES ('7', 'dfb8e47c-8c24-11e9-914b-7085c2ae4575', '1', '0', '::1', '2019-06-13 14:15:22');
+INSERT INTO `iot_user_operations` VALUES ('8', 'dfb8e47c-8c24-11e9-914b-7085c2ae4575', '1', '0', '::1', '2019-06-13 14:15:37');
+INSERT INTO `iot_user_operations` VALUES ('9', 'dfb8e47c-8c24-11e9-914b-7085c2ae4575', '1', '1', '::1', '2019-06-24 14:59:53');
+INSERT INTO `iot_user_operations` VALUES ('10', 'dfb8e47c-8c24-11e9-914b-7085c2ae4575', '1', '2', '::1', '2019-06-24 15:07:40');
+INSERT INTO `iot_user_operations` VALUES ('11', 'walkline@163.com', '1', '3', '::1', '2019-07-22 10:29:37');
+INSERT INTO `iot_user_operations` VALUES ('12', 'dfb8e47c-8c24-11e9-914b-7085c2ae4575', '1', '1', '::1', '2019-07-22 10:29:46');
+INSERT INTO `iot_user_operations` VALUES ('13', 'dfb8e47c-8c24-11e9-914b-7085c2ae4575', '1', '1', '::1', '2019-07-22 17:08:36');
+INSERT INTO `iot_user_operations` VALUES ('14', 'dfb8e47c-8c24-11e9-914b-7085c2ae4575', '1', '1', '::1', '2019-07-22 17:10:07');
+INSERT INTO `iot_user_operations` VALUES ('15', 'dfb8e47c-8c24-11e9-914b-7085c2ae4575', '1', '1', '::1', '2019-07-23 15:47:20');
+INSERT INTO `iot_user_operations` VALUES ('16', 'dfb8e47c-8c24-11e9-914b-7085c2ae4575', '1', '1', '::1', '2019-07-24 09:18:28');
+INSERT INTO `iot_user_operations` VALUES ('17', 'dfb8e47c-8c24-11e9-914b-7085c2ae4575', '1', '1', '::1', '2019-07-24 09:18:58');
+INSERT INTO `iot_user_operations` VALUES ('18', 'dfb8e47c-8c24-11e9-914b-7085c2ae4575', '1', '1', '::1', '2019-07-25 15:53:33');
