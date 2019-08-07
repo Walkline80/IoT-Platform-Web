@@ -11,13 +11,18 @@
 	$device_key = @$post['device_key'];
 	$type = @$post['type'];
 
-	while (true) {
-		if (check_staus($uuid, $device_id, $device_key)) {
-			break;
+	try {
+		while (true) {
+			if (check_staus($uuid, $device_id, $device_key)) {
+				break;
+			}
+	
+			sleep(1);
 		}
-
-		usleep(200000);
+	} catch (Exception $e) {
+		echo $e->getMessage();
 	}
+
 
 	function check_staus($uuid, $device_id, $device_key) {
 		global $mysqli;
