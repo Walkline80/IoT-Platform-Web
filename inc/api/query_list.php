@@ -22,7 +22,7 @@
 		
 		const query_clear_device_wanted_status =
 			"UPDATE iot_devices
-			SET wanted = ?
+			SET wanted = -1
 			WHERE
 				uuid = ?
 			AND `key` = ?

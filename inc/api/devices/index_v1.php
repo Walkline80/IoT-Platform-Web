@@ -72,7 +72,7 @@
 			$wanted_status = -1;
 
 			$stmt = $mysqli->prepare(query_list_devices::query_clear_device_wanted_status);
-			$stmt->bind_param("isss", $wanted_status, $uuid, $device_id, $device_key);
+			$stmt->bind_param("sss", $uuid, $device_id, $device_key);
 			$stmt->execute();
 		}
 
