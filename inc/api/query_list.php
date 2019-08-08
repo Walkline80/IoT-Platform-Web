@@ -11,33 +11,37 @@
 
 	class query_list_devices
 	{
+		// 使用存储过程完成下列 3 条查询的功能
+		const query_procedure =
+			"CALL update_and_feedback_status(?, ?, ?, ?, @wanted_status);";
+
 		// 更新指定设备状态
-		const query_command =
-			"UPDATE iot_devices
-			SET `status` = ?
-			WHERE
-				uuid = ?
-			AND `key` = ?
-			AND secret = ?";
+		// const query_command =
+		// 	"UPDATE iot_devices
+		// 	SET `status` = ?
+		// 	WHERE
+		// 		uuid = ?
+		// 	AND `key` = ?
+		// 	AND secret = ?";
 		
-		const query_clear_device_wanted_status =
-			"UPDATE iot_devices
-			SET wanted = -1
-			WHERE
-				uuid = ?
-			AND `key` = ?
-			AND secret = ?";
+		// const query_clear_device_wanted_status =
+		// 	"UPDATE iot_devices
+		// 	SET wanted = -1
+		// 	WHERE
+		// 		uuid = ?
+		// 	AND `key` = ?
+		// 	AND secret = ?";
 
 		// 查询设备预期状态
-		const query_device_wanted_status =
-			"SELECT
-				wanted
-			FROM
-				iot_devices
-			WHERE
-				uuid = ?
-			AND `key` = ?
-			AND secret = ?";
+		// const query_device_wanted_status =
+		// 	"SELECT
+		// 		wanted
+		// 	FROM
+		// 		iot_devices
+		// 	WHERE
+		// 		uuid = ?
+		// 	AND `key` = ?
+		// 	AND secret = ?";
 	}
 
 	class query_list_platform

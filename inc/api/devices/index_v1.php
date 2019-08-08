@@ -56,25 +56,34 @@
 			return $exception->get_response_object(2008);
 		}
 
-		$stmt = $mysqli->prepare(query_list_devices::query_command);
-		$stmt->bind_param("isss", $status, $uuid, $device_id, $device_key);
-		$stmt->execute();
-		// $stmt->store_result();
-
-		$stmt = $mysqli->prepare(query_list_devices::query_device_wanted_status);
-		$stmt->bind_param("sss", $uuid, $device_id, $device_key);
+		$stmt = $mysqli->prepare(query_list_devices::query_procedure);
+		$stmt->bind_param("sssi", $uuid, $device_id, $device_key, $status);
 		$stmt->execute();
 		$stmt->store_result();
 		$stmt->bind_result($wanted_status);
 		$stmt->fetch();
 
-		if ($status == $wanted_status) {
-			$wanted_status = -1;
 
-			$stmt = $mysqli->prepare(query_list_devices::query_clear_device_wanted_status);
-			$stmt->bind_param("sss", $uuid, $device_id, $device_key);
-			$stmt->execute();
-		}
+		// 已废弃，暂时保留，上边的存储过程调用可以替代下边的代码
+		// $stmt = $mysqli->prepare(query_list_devices::query_command);
+		// $stmt->bind_param("isss", $status, $uuid, $device_id, $device_key);
+		// $stmt->execute();
+		// // $stmt->store_result();
+
+		// $stmt = $mysqli->prepare(query_list_devices::query_device_wanted_status);
+		// $stmt->bind_param("sss", $uuid, $device_id, $device_key);
+		// $stmt->execute();
+		// $stmt->store_result();
+		// $stmt->bind_result($wanted_status);
+		// $stmt->fetch();
+
+		// if ($status == $wanted_status) {
+		// 	$wanted_status = -1;
+
+		// 	$stmt = $mysqli->prepare(query_list_devices::query_clear_device_wanted_status);
+		// 	$stmt->bind_param("sss", $uuid, $device_id, $device_key);
+		// 	$stmt->execute();
+		// }
 
 		$returnObject = array(
 			"result" => "success",
