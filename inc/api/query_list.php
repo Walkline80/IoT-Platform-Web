@@ -15,6 +15,46 @@
 		const query_procedure =
 			"CALL update_and_feedback_status(?, ?, ?, ?, @wanted_status);";
 
+		// ----------------------------------------------------
+		// -- 存储过程需保存到数据库中
+		// CREATE PROCEDURE `update_and_feedback_status`(
+		// 	IN in_uuid CHAR(36),
+		// 	IN in_device_id CHAR(36),
+		// 	IN in_device_key CHAR(36),
+		// 	IN in_status INT ,
+		// 	OUT out_wanted_status INT 
+		// ) 
+		// BEGIN
+		// 	UPDATE iot_devices
+		// 	SET `status` = in_status
+		// 	WHERE
+		// 		uuid = in_uuid
+		// 	AND `key` = in_device_id
+		// 	AND secret = in_device_key;
+		
+		// 	SELECT
+		// 		wanted into out_wanted_status
+		// 	FROM
+		// 		iot_devices
+		// 	WHERE
+		// 		uuid = in_uuid
+		// 	AND `key` = in_device_id
+		// 	AND secret = in_device_key;
+		
+		// 	IF in_status = out_wanted_status THEN
+		// 		UPDATE iot_devices
+		// 		SET wanted = -1
+		// 		WHERE
+		// 			uuid = in_uuid
+		// 		AND `key` = in_device_id
+		// 		AND secret = in_device_key;
+		// 	END IF;
+		
+		// 	SELECT out_wanted_status;
+		// END 
+		// ----------------------------------------------------
+
+
 		// 更新指定设备状态
 		// const query_command =
 		// 	"UPDATE iot_devices
